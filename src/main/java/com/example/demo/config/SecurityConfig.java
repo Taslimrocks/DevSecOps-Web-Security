@@ -12,13 +12,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    // 🔐 Password Encoder (BCrypt)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // 🔐 Authentication Provider
     @Bean
     public DaoAuthenticationProvider authProvider(CustomUserDetailsService service) {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
@@ -27,17 +25,17 @@ public class SecurityConfig {
         return auth;
     }
 
-    // 🔐 Security Configuration
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
                                            DaoAuthenticationProvider authProvider) throws Exception {
 
         http
+            .csrf(csrf -> csrf.disable())   // ✅ ADD THIS LINE
+
             .authenticationProvider(authProvider)
 
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/css/**", "/js/**", "/uploads/**").permitAll()
-                .anyRequest().authenticated()
+            .requestMatchers("/", "/login", "/register", "/error", "/css/**", "/js/**", "/uploads/**").permitAll()                .anyRequest().authenticated()
             )
 
             .formLogin(form -> form
