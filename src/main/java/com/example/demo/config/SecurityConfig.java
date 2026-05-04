@@ -30,24 +30,28 @@ public class SecurityConfig {
                                            DaoAuthenticationProvider authProvider) throws Exception {
 
         http
-            .csrf(csrf -> csrf.disable())   // ✅ ADD THIS LINE
-
             .authenticationProvider(authProvider)
 
             .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/", "/login", "/register", "/error", "/css/**", "/js/**", "/uploads/**").permitAll()                .anyRequest().authenticated()
-            )
+            .requestMatchers("/", "/login", "/register", "/error", "/css/**", "/js/**", "/uploads/**").permitAll()
+            .anyRequest().authenticated()
+        )
 
-            .formLogin(form -> form
-                .loginPage("/login")
-                .defaultSuccessUrl("/profile", true)
-                .permitAll()
-            )
+        .formLogin(form -> form
+            .loginPage("/login")
+            .defaultSuccessUrl("/profile", true)
+            .permitAll()
+        )
 
-            .logout(logout -> logout
-                .logoutSuccessUrl("/login?logout")
-                .permitAll()
-            );
+        .rememberMe(remember -> remember
+            .key("secretKey")
+            .tokenValiditySeconds(86400)
+        )
+
+        .logout(logout -> logout
+            .logoutSuccessUrl("/login?logout")
+            .permitAll()
+        );
 
         return http.build();
     }
