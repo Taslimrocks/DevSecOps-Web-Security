@@ -18,6 +18,6 @@ class HelloController {
 
     @GetMapping("/")
     public String hello() {
-        return "Hello DevSecOps";
+        return "Hello DevSecOps Crowd!";
     }
 }
