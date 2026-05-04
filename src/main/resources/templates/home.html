@@ -2,37 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-<nav class="navbar navbar-dark bg-dark px-3">
-    <a class="navbar-brand" href="/">DevSecOps App</a>
-    <div>
-        <a class="btn btn-light" href="/profile">Profile</a>
-        <form action="/logout" method="post" style="display:inline;">
-            <button class="btn btn-danger">Logout</button>
-        </form>
-    </div>
+<nav class="navbar navbar-dark bg-dark px-4">
+    <a class="navbar-brand" href="/">DevSecApp</a>
 </nav>
 
-<div class="container mt-4">
-    <h2>Cybersecurity and Legal Protection</h2>
+<div class="container text-center mt-5">
 
-    <p>
-        Cybersecurity is essential in protecting sensitive digital assets from threats like hacking, phishing, and ransomware.
-        Organizations must implement secure authentication and data protection strategies.
-    </p>
+    <h1 class="text-white fw-bold">Welcome 🚀</h1>
+    <p class="text-light">Secure Web Application</p>
 
-    <p>
-        Legal frameworks such as GDPR and India’s IT Act ensure responsible data handling.
-        Non-compliance can lead to penalties and reputational damage.
-    </p>
+    <a href="/login" class="btn btn-primary me-2">Login</a>
+    <a href="/register" class="btn btn-success">Register</a>
 
-    <p>
-        Best practices include strong passwords, multi-factor authentication, regular audits,
-        and secure DevSecOps pipelines.
-    </p>
 </div>
 
 </body>

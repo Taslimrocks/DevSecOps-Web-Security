@@ -13,18 +13,20 @@ public class DataLoader {
     @Bean
     CommandLineRunner loadData(UserRepository repo) {
         return args -> {
+
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
- if (repo.findByUsername("admin").isEmpty()) {
+            // Create admin ONLY if not exists
+            if (repo.findByUsername("admin").isEmpty()) {
 
-    User user = new User();
-    user.setUsername("admin");
-    user.setPassword(encoder.encode("1234"));
-    user.setName("Admin User");
-    user.setGender("Female");
+                User user = new User();
+                user.setUsername("admin");
+                user.setPassword(encoder.encode("1234"));
+                user.setName("Admin User");
+                user.setGender("Female");
 
-    repo.save(user);
-}
+                repo.save(user);
+            }
         };
     }
 }

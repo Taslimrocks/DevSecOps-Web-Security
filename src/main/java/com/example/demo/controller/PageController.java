@@ -30,6 +30,36 @@ public class PageController {
         return "login";
     }
 
+// REGISTER PAGE
+@GetMapping("/register")
+public String showRegisterPage(Model model) {
+    model.addAttribute("user", new User());
+    return "register";
+}
+
+// HANDLE REGISTER
+@PostMapping("/register")
+public String registerUser(@ModelAttribute User user) {
+
+    // check duplicate username
+    if (repo.findByUsername(user.getUsername()).isPresent()) {
+        return "redirect:/register?error=exists";
+    }
+
+    // encode password (better way)
+    org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder encoder =
+            new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
+
+    user.setPassword(encoder.encode(user.getPassword()));
+
+    // set default role
+    user.setRole("USER");
+
+    repo.save(user);
+
+    return "redirect:/login";
+}
+
     // PROFILE PAGE
     @GetMapping("/profile")
     public String profile(Model model, Authentication auth) {
@@ -81,5 +111,6 @@ public class PageController {
         repo.save(user);
 
         return "redirect:/profile";
+
     }
 }
