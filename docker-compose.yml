@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_DATABASE: devsecops_app
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+
+  spring-app:
+    build: .
+    container_name: spring-app
+    depends_on:
+      - mysql-db
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/devsecops_app
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
