@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Register</title>
+    <title>SecurLogin - Register</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -9,111 +9,144 @@
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/style.css?v=2">
 </head>
 
-<body>
+<body class="login-bg">
 
 <!-- 🔥 NAVBAR -->
-<nav class="navbar navbar-dark bg-dark px-4 shadow">
-    <a class="navbar-brand fw-bold" href="/">DevSecApp</a>
+<nav class="navbar navbar-dark px-4">
+    <a class="navbar-brand fw-bold text-info" href="/">SecurLogin</a>
 
     <div>
-        <a href="/login" class="btn btn-outline-light">Login</a>
+        <a href="/" class="text-light me-3">Home</a>
+        <a href="/login" class="btn btn-outline-info">Login</a>
     </div>
 </nav>
 
-<!-- 🔥 REGISTER FORM -->
+<!-- 🔥 MAIN PANEL -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height:90vh;">
 
-    <div class="card login-card p-4 shadow-lg">
+    <div class="glass-card p-4 w-100">
 
-        <h3 class="text-center mb-3 fw-bold">Create Account 🚀</h3>
+        <h2 class="text-center text-info mb-4">Secure Your Digital Identity</h2>
 
-        <!-- ERROR MESSAGE -->
+        <!-- ERROR -->
         <div th:if="${param.error}" class="alert alert-danger text-center">
-            ❌ Username already exists
+            Username already exists
         </div>
 
         <form th:action="@{/register}" method="post">
 
-            <!-- Username -->
-            <div class="mb-3">
-                <label class="form-label">Username</label>
-                <input type="text" name="username" class="form-control" placeholder="Enter username" required>
+            <!-- USERNAME -->
+            <div class="mb-3 position-relative">
+                <i class="bi bi-at input-icon"></i>
+                <input type="text" name="username"
+                    class="form-control input-dark"
+                    placeholder="Username" required>
             </div>
 
-            <!-- Name -->
-            <div class="mb-3">
-                <label class="form-label">Full Name</label>
-                <input type="text" name="name" class="form-control" placeholder="Enter your name" required>
+            <!-- FULL NAME -->
+            <div class="input-group mb-3">
+                <span class="input-group-text bg-dark text-info"><i class="bi bi-person"></i></span>
+                <input type="text" name="name" class="form-control input-dark" placeholder="Full Name" required>
             </div>
 
-            <!-- Gender -->
-            <div class="mb-3">
-                <label class="form-label">Gender</label>
-                <select name="gender" class="form-control" required>
-                    <option value="">Select gender</option>
+            <!-- GENDER -->
+            <div class="input-group mb-3">
+                <span class="input-group-text bg-dark text-info"><i class="bi bi-gender-ambiguous"></i></span>
+                <select name="gender" class="form-control input-dark" required>
+                    <option value="">Select Gender</option>
                     <option>Male</option>
                     <option>Female</option>
                     <option>Other</option>
                 </select>
             </div>
 
-            <!-- Password -->
+            <!-- PASSWORD -->
             <div class="mb-3 position-relative">
-                <label class="form-label">Password</label>
-                <input type="password" id="password" name="password" class="form-control" required>
+                <i class="bi bi-key input-icon"></i>
 
-                <i class="bi bi-eye-slash toggle-password" onclick="togglePassword('password', this)"></i>
+                <input type="password" id="password" name="password"
+                    class="form-control input-dark"
+                    placeholder="Password" required>
+
+                <span class="eye-icon" onclick="togglePassword('password', this)">
+                    <i class="bi bi-eye-slash"></i>
+                </span>
             </div>
 
-            <!-- Confirm Password -->
-            <div class="mb-3 position-relative">
-                <label class="form-label">Confirm Password</label>
-                <input type="password" id="confirmPassword" class="form-control" required>
-
-                <i class="bi bi-eye-slash toggle-password" onclick="togglePassword('confirmPassword', this)"></i>
+            <!-- PASSWORD STRENGTH -->
+            <div class="mb-3">
+                <small id="strengthText" class="text-success"></small>
+                <div class="progress" style="height:5px;">
+                    <div id="strengthBar" class="progress-bar bg-info" style="width:0%"></div>
+                </div>
             </div>
 
-            <!-- Button -->
-            <button class="btn btn-success w-100 login-btn">Register</button>
+            <!-- CONFIRM PASSWORD -->
+            <div class="input-group mb-3">
+                <span class="input-group-text bg-dark text-info"><i class="bi bi-key"></i></span>
+                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control input-dark" placeholder="Confirm Password" required>
+            </div>
+
+            <!-- BUTTON -->
+            <button class="btn neon-btn w-100 mt-3">CREATE ACCOUNT</button>
 
         </form>
 
-        <p class="text-center mt-3">
-            Already have an account? <a href="/login">Login</a>
+        <p class="text-center mt-3 text-light">
+            Already have an account?
+            <a href="/login" class="text-info">Login here</a>
         </p>
 
     </div>
 
 </div>
 
-<!-- 🔥 JS -->
+<!-- JS -->
 <script>
-function togglePassword(fieldId, icon) {
-    const field = document.getElementById(fieldId);
+function togglePassword(id, el) {
+    const input = document.getElementById(id);
+    const icon = el.querySelector("i");
 
-    if (field.type === "password") {
-        field.type = "text";
-        icon.classList.remove("bi-eye-slash");
-        icon.classList.add("bi-eye");
+    if (input.type === "password") {
+        input.type = "text";
+        icon.classList.replace("bi-eye-slash", "bi-eye");
     } else {
-        field.type = "password";
-        icon.classList.remove("bi-eye");
-        icon.classList.add("bi-eye-slash");
+        input.type = "password";
+        icon.classList.replace("bi-eye", "bi-eye-slash");
     }
 }
 
-// ✅ Password match validation
-document.querySelector("form").addEventListener("submit", function(e) {
-    const pass = document.getElementById("password").value;
-    const confirm = document.getElementById("confirmPassword").value;
+// PASSWORD STRENGTH
+document.getElementById("password").addEventListener("input", function() {
+    const val = this.value;
+    const bar = document.getElementById("strengthBar");
+    const text = document.getElementById("strengthText");
 
-    if (pass !== confirm) {
+    let strength = 0;
+
+    if (val.length > 5) strength += 30;
+    if (val.match(/[A-Z]/)) strength += 20;
+    if (val.match(/[0-9]/)) strength += 20;
+    if (val.match(/[^A-Za-z0-9]/)) strength += 30;
+
+    bar.style.width = strength + "%";
+
+    if (strength < 40) text.innerText = "Weak";
+    else if (strength < 70) text.innerText = "Medium";
+    else text.innerText = "Strong";
+});
+
+// CONFIRM PASSWORD
+document.querySelector("form").addEventListener("submit", function(e) {
+    const p = document.getElementById("password").value;
+    const c = document.getElementById("confirmPassword").value;
+
+    if (p !== c) {
         e.preventDefault();
-        alert("❌ Passwords do not match!");
+        alert("Passwords do not match!");
     }
 });
 </script>
