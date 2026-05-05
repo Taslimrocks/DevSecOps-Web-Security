@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,32 @@ public class PageController {
     @Autowired
     private UserRepository repo;
 
-    // HOME PAGE
+    // REGISTER PAGE
+    @GetMapping("/register")
+    public String showRegisterPage(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
+    }
+
+    // HANDLE REGISTER
+    @PostMapping("/register")
+    public String registerUser(@ModelAttribute User user) {
+
+        if (repo.findByUsername(user.getUsername()).isPresent()) {
+            return "redirect:/register?error=exists";
+        }
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(user.getPassword()));
+
+        user.setRole("USER");
+
+        repo.save(user);
+
+        return "redirect:/login";
+    }
+
+    // HOME PAGE ✅ INSIDE CLASS
     @GetMapping("/")
     public String home() {
         return "home";
@@ -30,49 +56,16 @@ public class PageController {
         return "login";
     }
 
-// REGISTER PAGE
-@GetMapping("/register")
-public String showRegisterPage(Model model) {
-    model.addAttribute("user", new User());
-    return "register";
-}
-
-// HANDLE REGISTER
-@PostMapping("/register")
-public String registerUser(@ModelAttribute User user) {
-
-    // check duplicate username
-    if (repo.findByUsername(user.getUsername()).isPresent()) {
-        return "redirect:/register?error=exists";
-    }
-
-    // encode password (better way)
-    org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder encoder =
-            new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
-
-    user.setPassword(encoder.encode(user.getPassword()));
-
-    // set default role
-    user.setRole("USER");
-
-    repo.save(user);
-
-    return "redirect:/login";
-}
-
     // PROFILE PAGE
     @GetMapping("/profile")
     public String profile(Model model, Authentication auth) {
-
         String username = auth.getName();
         User user = repo.findByUsername(username).orElse(null);
-
         model.addAttribute("user", user);
-
         return "profile";
     }
 
-    // UPDATE PROFILE (SECURE VERSION)
+    // UPDATE PROFILE
     @PostMapping("/update-profile")
     public String updateProfile(
             String name,
@@ -90,9 +83,7 @@ public String registerUser(@ModelAttribute User user) {
         user.setName(name);
         user.setGender(gender);
 
-        // ✅ Secure file upload
         if (!image.isEmpty()) {
-
             String contentType = image.getContentType();
 
             if (!contentType.equals("image/png") && !contentType.equals("image/jpeg")) {
@@ -111,6 +102,5 @@ public String registerUser(@ModelAttribute User user) {
         repo.save(user);
 
         return "redirect:/profile";
-
     }
 }
