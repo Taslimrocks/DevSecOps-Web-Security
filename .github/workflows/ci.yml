@@ -24,19 +24,12 @@ jobs:
 
     - name: Run Tests
       run: mvn test
-    - name: SonarQube Scan
-      uses: SonarSource/sonarqube-scan-action@v2
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@v2
       with:
         args: >
-          -Dsonar.projectKey=devsecops-project
-            -Dsonar.sources=.
+          -Dsonar.projectKey=Taslimrocks_DevSecOps-Web-Security
+          -Dsonar.organization=taslimrocks
+          -Dsonar.sources=.
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-
-    - name: SonarQube Quality Gate
-      uses: SonarSource/sonarqube-quality-gate-action@v1
-      timeout-minutes: 5
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-   
