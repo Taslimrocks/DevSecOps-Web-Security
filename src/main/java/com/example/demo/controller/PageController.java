@@ -56,21 +56,59 @@ public class PageController {
         return "login";
     }
 
-    // PROFILE PAGE
-    @GetMapping("/profile")
-    public String profile(Model model, Authentication auth) {
-        String username = auth.getName();
-        User user = repo.findByUsername(username).orElse(null);
-        model.addAttribute("user", user);
-        return "profile";
-    }
+        // 🔐 CALCULATE SECURITY SCORE
+        @GetMapping("/profile")
+        public String profile(Model model, Authentication auth) {
 
-    // UPDATE PROFILE
+            String username = auth.getName();
+            User user = repo.findByUsername(username).orElse(null);
+
+            if (user == null) {
+                return "redirect:/login";
+            }
+
+            model.addAttribute("user", user);
+
+            // ✅ REQUIRED (missing = 500 error)
+            int score = calculateSecurityScore(user);
+            model.addAttribute("securityScore", score);
+
+            // ✅ REQUIRED
+            model.addAttribute("device", "Desktop");
+
+            return "profile";
+        }
+    private int calculateSecurityScore(User user) {
+        int score = 0;
+
+        // Strong password (basic check)
+        if (user.getPassword() != null && user.getPassword().length() > 8) {
+            score += 30;
+        }
+
+        // Profile completed
+        if (user.getName() != null && !user.getName().isEmpty()) {
+            score += 20;
+        }
+
+        // Gender set
+        if (user.getGender() != null && !user.getGender().isEmpty()) {
+            score += 20;
+        }
+
+        // Profile image uploaded
+        if (user.getProfileImagePath() != null) {
+            score += 30;
+        }
+
+        return Math.min(score, 100);
+    }
+    // PROFILE PAGE
     @PostMapping("/update-profile")
     public String updateProfile(
-            String name,
-            String gender,
-            MultipartFile image,
+            @RequestParam("name") String name,
+            @RequestParam("gender") String gender,
+            @RequestParam(value = "image", required = false) MultipartFile image,
             Authentication auth) throws IOException {
 
         String username = auth.getName();
@@ -80,10 +118,14 @@ public class PageController {
             return "redirect:/login";
         }
 
+        // update fields
         user.setName(name);
         user.setGender(gender);
 
-        if (!image.isEmpty()) {
+        // ✅ SAFE IMAGE HANDLING
+        System.out.println("Image received: " + (image != null ? image.getOriginalFilename() : "NULL"));
+        if (image != null && !image.isEmpty()) {
+
             String contentType = image.getContentType();
 
             if (!contentType.equals("image/png") && !contentType.equals("image/jpeg")) {
@@ -92,6 +134,12 @@ public class PageController {
 
             String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
             String uploadDir = "src/main/resources/static/uploads/";
+
+            // ✅ CREATE FOLDER IF NOT EXISTS
+            File uploadPath = new File(uploadDir);
+            if (!uploadPath.exists()) {
+                uploadPath.mkdirs();
+            }
 
             File file = new File(uploadDir + fileName);
             image.transferTo(file);
