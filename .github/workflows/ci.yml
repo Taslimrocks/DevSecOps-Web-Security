@@ -30,7 +30,13 @@ jobs:
         run: sleep 30
 
       - name: Verify App Running
-        run: curl http://localhost:8081
+        run: docker ps
+
+      - name: Check Application Logs
+        run: docker logs spring-app
+
+      - name: Verify App Endpoint
+        run: curl http://127.0.0.1:8081
 
       - name: SonarCloud Scan
         run: |
