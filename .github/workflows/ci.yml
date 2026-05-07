@@ -27,8 +27,7 @@ jobs:
         run: docker compose up -d
 
       - name: Wait for Application
-        run: |
-          sleep 30
+        run: sleep 30
 
       - name: Verify App Running
         run: curl http://localhost:8081
