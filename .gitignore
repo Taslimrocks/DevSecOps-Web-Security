@@ -35,3 +35,6 @@ build/
 *.log
 .env
 node_modules/
+
+zap-report.html
+zap.yaml
