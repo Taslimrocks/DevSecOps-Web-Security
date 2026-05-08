@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- CSS -->
+<<<<<<< HEAD
 <link rel="stylesheet" href="/style.css?v=2">
 </head>
 
@@ -24,6 +25,31 @@
         <a href="/profile" class="text-info me-3">Profile</a>
         <a href="/logout" class="btn btn-danger">Logout</a>
     </div>
+=======
+<link rel="preload" href="/style.css" as="style">
+<link rel="stylesheet" th:href="@{/style.css}">
+</head>
+
+
+<body class="home-bg">
+
+    <div id="app-transition"></div>
+<!-- 🔐 NAVBAR -->
+<nav class="navbar custom-navbar px-4">
+
+    <!-- LOGO -->
+    <div class="logo">
+        🔐 <span>SecurLogin</span>
+    </div>
+
+    <!-- NAV LINKS -->
+    <div class="nav-links">
+        <a href="/" class="nav-link active">Home</a>
+        <a href="/login" class="nav-link">Login</a>
+        <a href="/register" class="btn neon-btn">Get Started</a>
+    </div>
+
+>>>>>>> fix-profile
 </nav>
 
 <!-- 🔥 MAIN -->
@@ -42,10 +68,17 @@
 
                 <!-- IMAGE -->
                 <img 
+<<<<<<< HEAD
                     th:src="${user.profileImagePath != null ? user.profileImagePath : '/uploads/default.png'}"
                     class="rounded-circle border border-info mb-3"
                     width="120" height="120"
                 >
+=======
+                th:src="${user != null && user.profileImagePath != null ? user.profileImagePath : '/images/default.jpg'}"
+                class="rounded-circle border border-info mb-3 profile-img"
+                width="120" height="120"
+                />
+>>>>>>> fix-profile
 
                 <h4 th:text="${user.name}">Name</h4>
                 <p class="text-light" th:text="${user.username}">@username</p>
@@ -53,7 +86,15 @@
                 <hr>
 
                 <!-- FORM -->
+<<<<<<< HEAD
                 <form action="/update-profile" method="post" enctype="multipart/form-data">
+=======
+                <form th:action="@{/update-profile}" method="post" enctype="multipart/form-data">
+
+                    <input type="hidden"
+                        th:name="${_csrf.parameterName}"
+                        th:value="${_csrf.token}" />
+>>>>>>> fix-profile
 
                     <input type="text" name="name" class="form-control input-dark mb-2"
                            placeholder="Full Name" th:value="${user.name}">
@@ -64,7 +105,13 @@
                     <input type="file" name="image" class="form-control input-dark mb-2"
                            onchange="previewImage(event)">
 
+<<<<<<< HEAD
                     <img id="preview" style="display:none; width:100px; margin-top:10px; border-radius:10px;"/>
+=======
+                    <img id="preview"
+                        class="profile-img mt-2"
+                        style="display:none; width:100px; border-radius:10px;" />
+>>>>>>> fix-profile
 
                     <button class="btn neon-btn w-100 mt-3">Update Profile</button>
 
@@ -81,10 +128,34 @@
             <div class="glass-card p-4 mb-4">
                 <h5 class="text-info">Security Posture</h5>
 
+<<<<<<< HEAD
                 <p class="mt-3">Security Level: <span class="text-success">Maximum</span></p>
 
                 <div class="progress mb-3" style="height:6px;">
                     <div class="progress-bar bg-info" style="width:100%"></div>
+=======
+                <p>
+                    Security Level: 
+                    <span 
+                        th:text="${securityLevel}"
+                        th:classappend="${securityLevel == 'High'} ? 'text-success' :
+                                        (${securityLevel == 'Medium'} ? 'text-warning' : 'text-danger')">
+                    </span>
+                </p>
+
+                <div class="progress mb-3">
+                    <div class="progress-bar"
+                        th:style="'width:' + ${securityScore} + '%;'"
+                        th:classappend="
+                            ${securityScore > 70} ? 'bg-success' :
+                            (${securityScore > 40} ? 'bg-warning' : 'bg-danger')">
+                    </div>
+                    <p class="mt-2 small text-light">
+                        Your account security is 
+                        <b th:text="${securityLevel}"></b>.
+                        Improve it by completing your profile and using strong credentials.
+                    </p>
+>>>>>>> fix-profile
                 </div>
 
                 <button class="btn neon-btn w-100">Manage Security</button>
@@ -92,6 +163,7 @@
 
             <!-- SESSIONS -->
             <div class="glass-card p-4">
+<<<<<<< HEAD
                 <h5 class="text-info">Active Sessions</h5>
 
                 <ul class="list-unstyled mt-3">
@@ -99,6 +171,19 @@
                     <li>📱 Mobile - 2 hrs ago</li>
                     <li>💻 Laptop - Yesterday</li>
                 </ul>
+=======
+                <div class="session-box neon-card p-3">
+
+                    <h5 class="text-info mb-3">Active Session</h5>
+
+                    <p><b>Device:</b> <span th:text="${device}"></span></p>
+
+                    <p>Status:
+                        <span class="badge bg-success">Active Now</span>
+                    </p>
+
+                </div>
+>>>>>>> fix-profile
             </div>
 
         </div>
@@ -108,6 +193,7 @@
 </div>
 
 <script>
+<<<<<<< HEAD
 function previewImage(event) {
     const reader = new FileReader();
     reader.onload = function(){
@@ -117,6 +203,64 @@ function previewImage(event) {
     }
     reader.readAsDataURL(event.target.files[0]);
 }
+=======
+/* ===============================
+   🖼 IMAGE PREVIEW (SAFE)
+================================ */
+function previewImage(event) {
+    const file = event.target.files[0];
+
+    if (!file) return; // prevent crash
+
+    const reader = new FileReader();
+
+    reader.onload = function () {
+        const preview = document.getElementById("preview");
+        if (preview) {
+            preview.src = reader.result;
+        }
+    };
+
+    reader.readAsDataURL(file);
+}
+
+
+/* ===============================
+   🚀 PAGE TRANSITION (SAFE + CLEAN)
+================================ */
+document.addEventListener("DOMContentLoaded", () => {
+
+    const overlay = document.getElementById("app-transition");
+
+    document.querySelectorAll("a").forEach(link => {
+
+        link.addEventListener("click", function(e) {
+
+            const url = this.href;
+
+            // ignore invalid links
+            if (!url || url.includes("#") || this.target === "_blank") return;
+
+            e.preventDefault();
+
+            // if no overlay → fallback
+            if (!overlay) {
+                window.location.href = url;
+                return;
+            }
+
+            overlay.classList.add("active");
+
+            setTimeout(() => {
+                window.location.href = url;
+            }, 500);
+
+        });
+
+    });
+
+});
+>>>>>>> fix-profile
 </script>
 
 </body>
