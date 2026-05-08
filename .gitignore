@@ -35,9 +35,8 @@ build/
 *.log
 .env
 node_modules/
-<<<<<<< HEAD
+
 
 zap-report.html
 zap.yaml
-=======
->>>>>>> fix-profile
+
