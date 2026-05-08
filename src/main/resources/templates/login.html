@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- CSS -->
-<<<<<<< HEAD
+
 <link rel="stylesheet" href="/style.css?v=2">
 </head>
 
@@ -26,7 +26,7 @@
         <a href="/" class="text-light me-3">Home</a>
         <a href="/login" class="text-info">Login</a>
     </div>
-=======
+
 <link rel="preload" href="/style.css" as="style">
 <link rel="stylesheet" th:href="@{/style.css}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -52,7 +52,7 @@
         <a href="/register" class="btn neon-btn">Get Started</a>
     </div>
 
->>>>>>> fix-profile
+
 </nav>
 
 <!-- 🔥 MAIN -->
@@ -65,7 +65,7 @@
             Secure Access Portal
         </h2>
 
-=======
+
 
         <!-- ✅ ADD HERE -->
         <h2 class="text-center mb-3">
@@ -85,17 +85,17 @@
     <!-- 🔽 EXISTING CONTENT CONTINUES -->
     <div class="row align-items-center">
 
->>>>>>> fix-profile
+
         <div class="row align-items-center">
 
             <!-- LEFT SIDE -->
             <div class="col-md-6">
-<<<<<<< HEAD
-=======
+
+
                 <div th:if="${param.error}" class="text-danger text-center mb-3">
                      ❌ Authentication Failed – Invalid Credentials
                 </div>
->>>>>>> fix-profile
+
 
                 <form th:action="@{/login}" method="post">
 
@@ -114,11 +114,11 @@
        
                     </div>
 
-<<<<<<< HEAD
+
                     <button class="btn neon-btn w-100 mb-3">
-=======
+
                     <button class="btn neon-btn w-100 mb-3" onclick="triggerScan(event)">
->>>>>>> fix-profile
+
                         Login with Credentials
                     </button>
 
@@ -133,12 +133,12 @@
             <!-- RIGHT SIDE -->
             <div class="col-md-6 text-center">
 
-<<<<<<< HEAD
+
                 <div class="fingerprint mb-3">
                     <i class="bi bi-fingerprint"></i>
                 </div>
 
-=======
+
                 <div class="lock-container mb-3"
                      th:classappend="${param.error} ? 'lock-error' : ''">
 
@@ -159,7 +159,6 @@
                 </div>
 
 
->>>>>>> fix-profile
                 <p class="text-light">Scan to Authenticate</p>
 
                 <button class="btn neon-btn mt-3">
@@ -179,8 +178,7 @@
     🔐 SecurLogin - Accessing
 </div>
 
-<<<<<<< HEAD
-=======
+
 
 <script>
 /* ===============================
@@ -337,6 +335,6 @@ document.querySelectorAll("a").forEach(link => {
 });
 </script>
 
->>>>>>> fix-profile
+
 </body>
 </html>
