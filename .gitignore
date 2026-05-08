@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+*.log
+.env
+node_modules/
+
+zap-report.html
+zap.yaml
