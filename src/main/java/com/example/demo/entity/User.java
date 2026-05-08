@@ -16,18 +16,18 @@ public class User {
     private String username;
 
     @NotBlank
-<<<<<<< HEAD
+
     @Size(min = 4)
     private String password;
 
-=======
+
     @Size(min = 8)
     private String password;
 
     // ✅ ONLY ONE declaration
     private int passwordStrength;
 
->>>>>>> fix-profile
+
     @NotBlank
     private String name;
 
@@ -36,7 +36,7 @@ public class User {
 
     private String profileImagePath;
 
-<<<<<<< HEAD
+
     // ✅ ADD ROLE
     private String role;
 
@@ -61,7 +61,7 @@ public class User {
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
-=======
+
     private String role;
 
     /* =========================
@@ -131,5 +131,5 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
->>>>>>> fix-profile
+
 }
