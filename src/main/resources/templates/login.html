@@ -10,23 +10,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- CSS -->
-
-<link rel="stylesheet" href="/style.css?v=2">
-</head>
-
-<body class="login-bg">
-
-<!-- 🔐 NAVBAR -->
-<nav class="navbar px-4 py-3">
-    <a class="navbar-brand fw-bold text-light" href="#">
-        🔐 <span style="color:#c084fc;">SecurLogin</span>
-    </a>
-
-    <div>
-        <a href="/" class="text-light me-3">Home</a>
-        <a href="/login" class="text-info">Login</a>
-    </div>
-
 <link rel="preload" href="/style.css" as="style">
 <link rel="stylesheet" th:href="@{/style.css}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -52,19 +35,12 @@
         <a href="/register" class="btn neon-btn">Get Started</a>
     </div>
 
-
 </nav>
 
 <!-- 🔥 MAIN -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height:90vh;">
 
     <div class="glass-card p-5 w-100" style="max-width:900px;">
-
-<<<<<<< HEAD
-        <h2 class="text-center mb-5" style="color:#c084fc;">
-            Secure Access Portal
-        </h2>
-
 
 
         <!-- ✅ ADD HERE -->
@@ -85,17 +61,13 @@
     <!-- 🔽 EXISTING CONTENT CONTINUES -->
     <div class="row align-items-center">
 
-
         <div class="row align-items-center">
 
             <!-- LEFT SIDE -->
             <div class="col-md-6">
-
-
                 <div th:if="${param.error}" class="text-danger text-center mb-3">
                      ❌ Authentication Failed – Invalid Credentials
                 </div>
-
 
                 <form th:action="@{/login}" method="post">
 
@@ -114,11 +86,7 @@
        
                     </div>
 
-
-                    <button class="btn neon-btn w-100 mb-3">
-
                     <button class="btn neon-btn w-100 mb-3" onclick="triggerScan(event)">
-
                         Login with Credentials
                     </button>
 
@@ -132,12 +100,6 @@
 
             <!-- RIGHT SIDE -->
             <div class="col-md-6 text-center">
-
-
-                <div class="fingerprint mb-3">
-                    <i class="bi bi-fingerprint"></i>
-                </div>
-
 
                 <div class="lock-container mb-3"
                      th:classappend="${param.error} ? 'lock-error' : ''">
@@ -177,7 +139,6 @@
 <div class="footer-text">
     🔐 SecurLogin - Accessing
 </div>
-
 
 
 <script>
@@ -334,7 +295,6 @@ document.querySelectorAll("a").forEach(link => {
     });
 });
 </script>
-
 
 </body>
 </html>
