@@ -1,19 +1,18 @@
-<<<<<<< HEAD
 /* 🌌 GLOBAL BACKGROUND (ALL PAGES BASE) */
-=======
+
 /* ===============================
    🌌 GLOBAL BASE
 ================================ */
->>>>>>> fix-profile
+
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
     color: white;
-<<<<<<< HEAD
+
 }
 
 /* 🔥 PAGE BACKGROUNDS */
-=======
+
     animation: fadeIn 0.6s ease;
 }
 
@@ -24,16 +23,16 @@ body {
 /* ===============================
    🔥 PAGE BACKGROUNDS
 ================================ */
->>>>>>> fix-profile
+
 .login-bg,
 .profile-bg,
 .home-bg {
     background:
-<<<<<<< HEAD
+
         linear-gradient(rgba(10, 5, 25, 0.85), rgba(10, 5, 25, 0.9)),
-=======
+
         linear-gradient(rgba(5, 2, 20, 0.411), rgba(5, 2, 20, 0.758)),
->>>>>>> fix-profile
+
         url("/images/cyberBG.jpg");
 
     background-size: cover;
@@ -42,13 +41,13 @@ body {
     min-height: 100vh;
 }
 
-<<<<<<< HEAD
+
 /* 🌐 GRID OVERLAY */
-=======
+
 /* ===============================
    🌐 GRID OVERLAY
 ================================ */
->>>>>>> fix-profile
+
 body::before {
     content: "";
     position: fixed;
@@ -61,7 +60,7 @@ body::before {
     z-index: -1;
 }
 
-<<<<<<< HEAD
+
 /* 🧊 GLASS CARD */
 .glass-card {
     border-radius: 20px;
@@ -73,7 +72,6 @@ body::before {
 
 /* 🧊 DASHBOARD CARDS */
 /* 🌌 CYBER PANEL */
-=======
 /* ===============================
    🧊 GLASS UI COMPONENTS
 ================================ */
@@ -100,14 +98,13 @@ body::before {
         inset 0 0 15px rgba(0,255,255,0.1);
 }
 /* Dashboard Panels */
->>>>>>> fix-profile
+
 .glass {
     background: rgba(15, 10, 35, 0.75);
     border: 1px solid rgba(0,255,255,0.2);
     border-radius: 20px;
     backdrop-filter: blur(18px);
     padding: 20px;
-<<<<<<< HEAD
 
     /* Glow effect */
     box-shadow: 
@@ -134,7 +131,7 @@ body::before {
 
 .glass:hover {
     transform: translateY(-5px);
-=======
+
     box-shadow: 
         0 0 20px rgba(0,255,255,0.15),
         inset 0 0 10px rgba(0,255,255,0.05);
@@ -145,44 +142,40 @@ body::before {
 
 .glass:hover {
     transform: translateY(-5px) scale(1.02);
->>>>>>> fix-profile
+
     box-shadow: 
         0 0 30px rgba(0,255,255,0.3),
         inset 0 0 15px rgba(0,255,255,0.1);
 }
 
-<<<<<<< HEAD
+
 /* 🧠 TITLE GLOW */
 .dashboard-title {
     font-size: 26px;
-=======
+
 /* ===============================
    🧠 TEXT & HEADINGS
 ================================ */
 .dashboard-title {
-    font-size: 24px;
->>>>>>> fix-profile
+    font-size: 24px; 
     font-weight: bold;
     color: #22d3ee;
     text-shadow: 0 0 10px rgba(0,255,255,0.6);
 }
 
-<<<<<<< HEAD
+
 /* 🔥 SECTION HEADINGS */
-=======
->>>>>>> fix-profile
 h5 {
     font-weight: 600;
     letter-spacing: 1px;
 }
 
-<<<<<<< HEAD
 /* 🚨 RISK BOX */
-=======
+
 /* ===============================
    📦 UI BOXES
 ================================ */
->>>>>>> fix-profile
+
 .risk-box {
     background: linear-gradient(90deg, #ff3b3b, #ff0000);
     border-radius: 10px;
@@ -192,10 +185,10 @@ h5 {
     box-shadow: 0 0 15px rgba(255,0,0,0.6);
 }
 
-<<<<<<< HEAD
+
 /* 🌍 MAP BOX */
-=======
->>>>>>> fix-profile
+
+
 .map-box {
     height: 150px;
     background: radial-gradient(circle at center, #1f2937, #020617);
@@ -208,10 +201,10 @@ h5 {
     box-shadow: inset 0 0 20px rgba(0,255,255,0.1);
 }
 
-<<<<<<< HEAD
+
 /* 📊 GRAPH BOX */
-=======
->>>>>>> fix-profile
+
+
 .graph-box {
     height: 100px;
     background: linear-gradient(135deg, #020617, #1e293b);
@@ -222,10 +215,9 @@ h5 {
     color: #22d3ee;
 }
 
-<<<<<<< HEAD
+
 /* 📦 CASE BOX */
-=======
->>>>>>> fix-profile
+
 .case-box {
     background: rgba(30, 41, 59, 0.6);
     padding: 12px;
@@ -233,13 +225,12 @@ h5 {
     border-left: 3px solid #c084fc;
 }
 
-<<<<<<< HEAD
+
 /* ✏ INPUT */
 .input-dark {
     background: rgba(255,255,255,0.05);
     color: white;
     border: 1px solid rgba(192,132,252,0.4);
-=======
 /* ===============================
    ✏ FORM INPUTS
 ================================ */
@@ -247,7 +238,7 @@ h5 {
     background: rgba(255,255,255,0.05);
     color: white;
     border: 1px solid rgba(0,255,255,0.3);
->>>>>>> fix-profile
+
 }
 
 .input-dark::placeholder {
@@ -255,13 +246,12 @@ h5 {
 }
 
 .input-dark:focus {
-<<<<<<< HEAD
+
     border-color: #c084fc;
     box-shadow: 0 0 10px #c084fc;
 }
 
 /* 🔘 BUTTON */
-=======
     border-color: #22d3ee;
     box-shadow: 0 0 12px #22d3ee;
 }
@@ -269,24 +259,24 @@ h5 {
 /* ===============================
    🔘 BUTTONS
 ================================ */
->>>>>>> fix-profile
+
 .neon-btn {
     background: linear-gradient(45deg, #9333ea, #c084fc);
     border: none;
     color: white;
     font-weight: bold;
-<<<<<<< HEAD
+
     box-shadow: 0 0 15px #9333ea;
-=======
+
 
     box-shadow: 0 0 15px rgba(192,132,252,0.5);
     transition: 0.3s;
->>>>>>> fix-profile
+
 }
 
 .neon-btn:hover {
     transform: scale(1.05);
-<<<<<<< HEAD
+
     box-shadow: 0 0 25px #c084fc;
 }
 
@@ -576,21 +566,21 @@ h5 {
 /* ===============================
    🧾 FOOTER
 ================================ */
->>>>>>> fix-profile
+
 .footer-text {
     position: fixed;
     bottom: 10px;
     right: 20px;
     color: #c084fc;
 }
-<<<<<<< HEAD
+
 
 /* 🧠 DASHBOARD TEXT */
 .dashboard-title {
     font-size: 24px;
     font-weight: bold;
     color: #22d3ee;
-=======
+
 h2, h3 {
     font-weight: 600;
     letter-spacing: 1px;
@@ -874,10 +864,7 @@ to { transform: translate(-50%, -50%) rotate(360deg); }
 section:first-of-type {
     position: relative;
     perspective: 1200px;
-    /*height: 70vh; /* smaller = globe comes up */
-    /*display: flex;
-    flex-direction: column;
-    justify-content: center;*/
+    
 }
 
 /* 🌌 SECTION FOR SECOND GLOBE */
@@ -921,5 +908,5 @@ section:first-of-type {
 #app-transition.active {
     opacity: 1;
     transform: scale(1);
->>>>>>> fix-profile
+
 }
