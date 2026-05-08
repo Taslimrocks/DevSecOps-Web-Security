@@ -1,17 +1,21 @@
 package com.example.demo.controller;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.Principal;
 
 @Controller
 public class PageController {
@@ -19,20 +23,25 @@ public class PageController {
     @Autowired
     private UserRepository repo;
 
-    // REGISTER PAGE
+    /* =========================
+       REGISTER
+    ========================= */
     @GetMapping("/register")
     public String showRegisterPage(Model model) {
         model.addAttribute("user", new User());
         return "register";
     }
 
-    // HANDLE REGISTER
     @PostMapping("/register")
     public String registerUser(@ModelAttribute User user) {
 
         if (repo.findByUsername(user.getUsername()).isPresent()) {
             return "redirect:/register?error=exists";
         }
+
+        // ✅ calculate REAL password strength BEFORE encoding
+        int strength = calculatePasswordStrength(user.getPassword());
+        user.setPasswordStrength(strength);
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
@@ -44,72 +53,24 @@ public class PageController {
         return "redirect:/login";
     }
 
-    // HOME PAGE ✅ INSIDE CLASS
+    /* =========================
+       HOME & LOGIN
+    ========================= */
     @GetMapping("/")
     public String home() {
         return "home";
     }
 
-    // LOGIN PAGE
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
-        // 🔐 CALCULATE SECURITY SCORE
-        @GetMapping("/profile")
-        public String profile(Model model, Authentication auth) {
-
-            String username = auth.getName();
-            User user = repo.findByUsername(username).orElse(null);
-
-            if (user == null) {
-                return "redirect:/login";
-            }
-
-            model.addAttribute("user", user);
-
-            // ✅ REQUIRED (missing = 500 error)
-            int score = calculateSecurityScore(user);
-            model.addAttribute("securityScore", score);
-
-            // ✅ REQUIRED
-            model.addAttribute("device", "Desktop");
-
-            return "profile";
-        }
-    private int calculateSecurityScore(User user) {
-        int score = 0;
-
-        // Strong password (basic check)
-        if (user.getPassword() != null && user.getPassword().length() > 8) {
-            score += 30;
-        }
-
-        // Profile completed
-        if (user.getName() != null && !user.getName().isEmpty()) {
-            score += 20;
-        }
-
-        // Gender set
-        if (user.getGender() != null && !user.getGender().isEmpty()) {
-            score += 20;
-        }
-
-        // Profile image uploaded
-        if (user.getProfileImagePath() != null) {
-            score += 30;
-        }
-
-        return Math.min(score, 100);
-    }
-    // PROFILE PAGE
-    @PostMapping("/update-profile")
-    public String updateProfile(
-            @RequestParam("name") String name,
-            @RequestParam("gender") String gender,
-            @RequestParam(value = "image", required = false) MultipartFile image,
-            Authentication auth) throws IOException {
+    /* =========================
+       PROFILE
+    ========================= */
+    @GetMapping("/profile")
+    public String profile(Model model, Authentication auth) {
 
         String username = auth.getName();
         User user = repo.findByUsername(username).orElse(null);
@@ -118,37 +79,114 @@ public class PageController {
             return "redirect:/login";
         }
 
-        // update fields
-        user.setName(name);
-        user.setGender(gender);
+        model.addAttribute("user", user);
 
-        // ✅ SAFE IMAGE HANDLING
-        System.out.println("Image received: " + (image != null ? image.getOriginalFilename() : "NULL"));
-        if (image != null && !image.isEmpty()) {
+        int score = calculateSecurityScore(user);
+        model.addAttribute("securityScore", score);
 
-            String contentType = image.getContentType();
+        model.addAttribute("device", "Desktop");
 
-            if (!contentType.equals("image/png") && !contentType.equals("image/jpeg")) {
-                return "redirect:/profile?error=invalidfile";
-            }
+        String level;
 
-            String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-            String uploadDir = "src/main/resources/static/uploads/";
+        if (score < 40) level = "Low";
+        else if (score < 70) level = "Medium";
+        else level = "High";
 
-            // ✅ CREATE FOLDER IF NOT EXISTS
-            File uploadPath = new File(uploadDir);
-            if (!uploadPath.exists()) {
-                uploadPath.mkdirs();
-            }
+        model.addAttribute("securityLevel", level);
 
-            File file = new File(uploadDir + fileName);
-            image.transferTo(file);
+        return "profile";
+    }
 
-            user.setProfileImagePath("/uploads/" + fileName);
+    /* =========================
+       PASSWORD STRENGTH
+    ========================= */
+    private int calculatePasswordStrength(String password) {
+        int score = 0;
+
+        if (password.length() >= 6) score += 20;
+        if (password.length() >= 10) score += 20;
+        if (password.matches(".*[A-Z].*")) score += 20;
+        if (password.matches(".*[0-9].*")) score += 20;
+        if (password.matches(".*[^A-Za-z0-9].*")) score += 20;
+
+        return score;
+    }
+
+    /* =========================
+       SECURITY SCORE (FIXED)
+    ========================= */
+    private int calculateSecurityScore(User user) {
+        int score = 0;
+
+        // ✅ use stored password strength (NOT encoded password)
+        score += user.getPasswordStrength();
+
+        if (user.getName() != null && !user.getName().isEmpty()) {
+            score += 15;
         }
 
-        repo.save(user);
+        if (user.getGender() != null && !user.getGender().isEmpty()) {
+            score += 15;
+        }
 
-        return "redirect:/profile";
+        if (user.getProfileImagePath() != null) {
+            score += 20;
+        }
+
+        if (user.getUsername() != null) {
+            score += 10;
+        }
+
+        // bonus
+        score += 15;
+
+        return Math.min(score, 100);
+    }
+
+    /* =========================
+       UPDATE PROFILE
+    ========================= */
+    @PostMapping("/update-profile")
+    public String updateProfile(
+            @RequestParam("name") String name,
+            @RequestParam("gender") String gender,
+            @RequestParam("image") MultipartFile file,
+            Principal principal) {
+
+        try {
+            User user = repo.findByUsername(principal.getName()).orElse(null);
+
+            if (user == null) {
+                return "redirect:/login";
+            }
+
+            user.setName(name);
+            user.setGender(gender);
+
+            if (file != null && !file.isEmpty()) {
+
+                String uploadDir = "uploads/";
+                File dir = new File(uploadDir);
+
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+
+                String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+
+                Path path = Paths.get(uploadDir + fileName);
+                Files.write(path, file.getBytes());
+
+                user.setProfileImagePath("/uploads/" + fileName);
+            }
+
+            repo.save(user);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/profile?error";
+        }
+
+        return "redirect:/profile?success";
     }
 }

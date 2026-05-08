@@ -5,8 +5,13 @@ body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
     color: white;
+    animation: fadeIn 0.6s ease;
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 /* ===============================
    🔥 PAGE BACKGROUNDS
 ================================ */
@@ -14,7 +19,7 @@ body {
 .profile-bg,
 .home-bg {
     background:
-        linear-gradient(rgba(5, 2, 20, 0.95), rgba(5, 2, 20, 0.95)),
+        linear-gradient(rgba(5, 2, 20, 0.411), rgba(5, 2, 20, 0.758)),
         url("/images/cyberBG.jpg");
 
     background-size: cover;
@@ -74,10 +79,12 @@ body::before {
         0 0 20px rgba(0,255,255,0.15),
         inset 0 0 10px rgba(0,255,255,0.05);
     transition: 0.3s ease;
+    transform: translateZ(0);
+    will-change: transform, opacity;
 }
 
 .glass:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) scale(1.02);
     box-shadow: 
         0 0 30px rgba(0,255,255,0.3),
         inset 0 0 15px rgba(0,255,255,0.1);
@@ -242,16 +249,6 @@ h5 {
 .neon-btn:hover {
     box-shadow: 0 0 20px rgba(168,85,247,0.8);
 }
-
-/* ===============================
-   🔐 ICONS
-================================ */
-.fingerprint {
-    font-size: 110px;
-    color: #c084fc;
-    text-shadow: 0 0 20px #c084fc;
-}
-
 /* ===============================
    🧾 FOOTER
 ================================ */
@@ -274,4 +271,321 @@ h2 {
 p {
     color: #cbd5f5;
     line-height: 1.6;
+}
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;        /* behind everything */
+    pointer-events: none; /* allow clicks on buttons */
+}
+
+
+/* 🟢 Success → unlock */
+/* LOCK CONTAINER */
+.lock-container {
+    position: relative;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* LOCK */
+.lock {
+position: relative;
+width: 80px;
+margin: auto;
+}
+
+/* SHACKLE */
+.shackle {
+width: 40px;
+height: 30px;
+border: 3px solid #00ffff;
+border-bottom: none;
+border-radius: 20px 20px 0 0;
+margin: auto;
+transition: 0.4s;
+}
+
+/* BODY */
+.body {
+width: 80px;
+height: 70px;
+background: #021022;
+border: 2px solid #00ffff;
+border-radius: 10px;
+position: relative;
+box-shadow: 0 0 20px #00ffff;
+}
+
+/* HOLE */
+.hole {
+width: 8px;
+height: 18px;
+background: #00ffff;
+position: absolute;
+top: 25px;
+left: 50%;
+transform: translateX(-50%);
+}
+
+
+
+/* SUCCESS */
+.lock-success .shackle {
+transform: rotate(-35deg) translateY(-5px);
+border-color: #00ff9f;
+}
+
+/* ERROR SHAKE */
+.lock-error {
+animation: shake 0.3s 3;
+}
+.lock-success .body {
+    border-color: #00ff9f;
+    box-shadow: 0 0 30px #00ff9f;
+}
+
+.orbit-wrapper {
+    width: 380px;
+    height: 380px;
+    position: relative;
+    margin: 0 auto;
+}
+
+/* ==============RINGS ==================*/
+.orbit-ring {
+position: absolute;
+border-radius: 50%;
+border: 2px solid rgba(209, 111, 222, 0.4);
+box-shadow: 0 0 20px rgba(209, 111, 222, 0.4);
+animation: rotateOrbit linear infinite;
+}
+
+.ring1 {
+    width: 300px;
+    height: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-duration: 10s;
+}
+
+.ring2 {
+    width: 420px;
+    height: 420px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-duration: 18s;
+}
+
+.ring3 {
+    width: 550px;   /* ❗ FIXED (was 0px) */
+    height: 550px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-duration: 25s;
+}
+
+@keyframes rotateOrbit {
+from { transform: translate(-50%, -50%) rotate(0deg); }
+to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* LABELS */
+.orbit-label {
+position: absolute;
+color: #00ffff;
+font-size: 12px;
+text-shadow: 0 0 8px #00ffff;
+}
+
+.label1 { top: 0; left: 50%; transform: translateX(-50%); }
+.label2 { right: 0; top: 50%; transform: translateY(-50%); }
+.label3 { bottom: 0; left: 50%; transform: translateX(-50%); }
+.label4 { left: 0; top: 50%; transform: translateY(-50%); }
+
+@media (max-width: 768px) {
+    .orbit-wrapper {
+        width: 220px;
+        height: 220px;
+    }
+}
+
+.hero-orbit {
+    position: absolute;
+
+    top: 45%;          /* move up/down */
+    left: 50%;
+
+    transform: translate(-50%, -50%) scale(1.6) translateZ(-50px);/* bigger */
+
+    opacity: 0.50;     /* dim effect */
+    z-index: 0;
+    filter: blur(1px);
+    pointer-events: none; /* no blocking clicks */
+}
+
+
+.orbit-item {
+position: absolute;
+color: #311d4a;
+font-size: 12px;
+text-shadow: 0 0 8px #00ffff;
+}
+
+/* ORBIT PATHS */
+.item1 {
+animation: orbit1 12s linear infinite;
+}
+.item2 {
+animation: orbit2 14s linear infinite;
+}
+.item3 {
+animation: orbit3 16s linear infinite;
+}
+.item4 {
+animation: orbit4 18s linear infinite;
+}
+
+/* KEYFRAMES */
+@keyframes orbit1 {
+from { transform: rotate(0deg) translateX(90px) rotate(0deg); }
+to { transform: rotate(360deg) translateX(90px) rotate(-360deg); }
+}
+
+@keyframes orbit2 {
+from { transform: rotate(0deg) translateX(130px) rotate(0deg); }
+to { transform: rotate(360deg) translateX(130px) rotate(-360deg); }
+}
+
+@keyframes orbit3 {
+from { transform: rotate(0deg) translateX(170px) rotate(0deg); }
+to { transform: rotate(360deg) translateX(170px) rotate(-360deg); }
+}
+
+@keyframes orbit4 {
+from { transform: rotate(0deg) translateX(210px) rotate(0deg); }
+to { transform: rotate(360deg) translateX(210px) rotate(-360deg); }
+}
+
+
+/* 🔝 HERO TEXT ABOVE ORBIT */
+section h1,
+section p,
+section a {
+position: relative;
+z-index: 2;
+}
+
+/* 🔧 FIX LABEL CENTER POSITION */
+.orbit-item {
+top: 50%;
+left: 50%;
+}
+
+/* 🔥 STRONG GLOW FOR DIAMOND */
+.orbit-center {
+width: 180px;
+height: 180px;
+border-radius: 50%;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+
+
+background: radial-gradient(circle at 30% 30%, #470d79, #020617);
+
+box-shadow:
+    0 0 40px rgba(0,255,255,0.3),
+    inset 0 0 20px rgba(0,255,255,0.3);
+
+animation: rotateGlobe 10s linear infinite;
+
+
+}
+
+/* 🌍 Globe grid lines */
+.orbit-center::before {
+content: "";
+position: absolute;
+width: 100%;
+height: 100%;
+border-radius: 50%;
+background:
+repeating-linear-gradient(
+0deg,
+transparent,
+transparent 6px,
+rgba(0,255,255,0.15) 7px
+),
+repeating-linear-gradient(
+90deg,
+transparent,
+transparent 6px,
+rgba(0,255,255,0.15) 7px
+);
+}
+
+/* rotation */
+@keyframes rotateGlobe {
+from { transform: translate(-50%, -50%) rotate(0deg); }
+to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+/* 🎯 CONTROL HERO AREA */
+section:first-of-type {
+    position: relative;
+    perspective: 1200px;
+    /*height: 70vh; /* smaller = globe comes up */
+    /*display: flex;
+    flex-direction: column;
+    justify-content: center;*/
+}
+
+/* 🌌 SECTION FOR SECOND GLOBE */
+.orbit-section {
+    height: 500px;        /* more space = better center */
+    display: flex;
+    align-items: center;  /* vertical center */
+    justify-content: center; /* horizontal center */
+}
+
+    /*This makes it look premium cyber UI */
+
+.login-box {
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0,255,255,0.2);
+    box-shadow: 0 0 25px rgba(0,255,255,0.3);
+}
+
+/* ===============================
+   🚀 PREMIUM PAGE TRANSITION
+================================ */
+
+#app-transition {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, #0f172a, #020617);
+    z-index: 9999;
+
+    transform: scale(1.2);
+    opacity: 0;
+    pointer-events: none;
+
+    transition: 
+        transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.6s ease;
+
+    will-change: transform, opacity;
+}
+
+/* ACTIVE STATE */
+#app-transition.active {
+    opacity: 1;
+    transform: scale(1);
 }

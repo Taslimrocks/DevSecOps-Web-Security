@@ -13,8 +13,10 @@
 <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 
-<body class="login-bg">
 
+<body class="home-bg">
+    <div id="app-transition"></div>
+    
 <!-- 🔥 NAVBAR -->
 <nav class="navbar custom-navbar px-4">
 
@@ -114,9 +116,14 @@
 
 <!-- JS -->
 <script>
+/* ===============================
+   🔐 TOGGLE PASSWORD (SAFE)
+================================ */
 function togglePassword(id, el) {
     const input = document.getElementById(id);
-    const icon = el.querySelector("i");
+    const icon = el?.querySelector("i");
+
+    if (!input || !icon) return;
 
     if (input.type === "password") {
         input.type = "text";
@@ -127,35 +134,77 @@ function togglePassword(id, el) {
     }
 }
 
-// PASSWORD STRENGTH
-document.getElementById("password").addEventListener("input", function() {
-    const val = this.value;
+
+/* ===============================
+   🚀 INIT AFTER PAGE LOAD
+================================ */
+document.addEventListener("DOMContentLoaded", () => {
+
+    /* 🔐 PASSWORD STRENGTH */
+    const passwordInput = document.getElementById("password");
     const bar = document.getElementById("strengthBar");
     const text = document.getElementById("strengthText");
 
-    let strength = 0;
+    if (passwordInput && bar && text) {
+        passwordInput.addEventListener("input", function () {
+            const val = this.value;
+            let strength = 0;
 
-    if (val.length > 5) strength += 30;
-    if (val.match(/[A-Z]/)) strength += 20;
-    if (val.match(/[0-9]/)) strength += 20;
-    if (val.match(/[^A-Za-z0-9]/)) strength += 30;
+            if (val.length > 5) strength += 30;
+            if (/[A-Z]/.test(val)) strength += 20;
+            if (/[0-9]/.test(val)) strength += 20;
+            if (/[^A-Za-z0-9]/.test(val)) strength += 30;
 
-    bar.style.width = strength + "%";
+            bar.style.width = strength + "%";
 
-    if (strength < 40) text.innerText = "Weak";
-    else if (strength < 70) text.innerText = "Medium";
-    else text.innerText = "Strong";
-});
-
-// CONFIRM PASSWORD
-document.querySelector("form").addEventListener("submit", function(e) {
-    const p = document.getElementById("password").value;
-    const c = document.getElementById("confirmPassword").value;
-
-    if (p !== c) {
-        e.preventDefault();
-        alert("Passwords do not match!");
+            if (strength < 40) text.innerText = "Weak";
+            else if (strength < 70) text.innerText = "Medium";
+            else text.innerText = "Strong";
+        });
     }
+
+
+    /* 🔁 CONFIRM PASSWORD */
+    const form = document.querySelector("form");
+    const confirmInput = document.getElementById("confirmPassword");
+
+    if (form && passwordInput && confirmInput) {
+        form.addEventListener("submit", function (e) {
+            if (passwordInput.value !== confirmInput.value) {
+                e.preventDefault();
+                alert("Passwords do not match!");
+            }
+        });
+    }
+
+
+    /* 🌌 PAGE TRANSITION */
+    const overlay = document.getElementById("app-transition");
+
+    document.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", function (e) {
+
+            const url = this.href;
+
+            // skip invalid links
+            if (!url || url.includes("#") || this.target === "_blank") return;
+
+            e.preventDefault();
+
+            // fallback if overlay missing
+            if (!overlay) {
+                window.location.href = url;
+                return;
+            }
+
+            overlay.classList.add("active");
+
+            setTimeout(() => {
+                window.location.href = url;
+            }, 500);
+        });
+    });
+
 });
 </script>
 

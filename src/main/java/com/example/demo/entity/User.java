@@ -16,8 +16,11 @@ public class User {
     private String username;
 
     @NotBlank
-    @Size(min = 4)
+    @Size(min = 8)
     private String password;
+
+    // ✅ ONLY ONE declaration
+    private int passwordStrength;
 
     @NotBlank
     private String name;
@@ -27,28 +30,73 @@ public class User {
 
     private String profileImagePath;
 
-    // ✅ ADD ROLE
     private String role;
 
-    // getters & setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    /* =========================
+       GETTERS & SETTERS
+    ========================= */
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getUsername() {
+        return username;
+    }
 
-    public String getGender() { return gender; }
-    public void setGender(String gender) { this.gender = gender; }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    public String getProfileImagePath() { return profileImagePath; }
-    public void setProfileImagePath(String profileImagePath) { this.profileImagePath = profileImagePath; }
+    public String getPassword() {
+        return password;
+    }
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getPasswordStrength() {
+        return passwordStrength;
+    }
+
+    public void setPasswordStrength(int passwordStrength) {
+        this.passwordStrength = passwordStrength;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getProfileImagePath() {
+        return profileImagePath;
+    }
+
+    public void setProfileImagePath(String profileImagePath) {
+        this.profileImagePath = profileImagePath;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

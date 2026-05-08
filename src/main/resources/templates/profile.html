@@ -14,8 +14,10 @@
 <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 
-<body class="profile-bg">
 
+<body class="home-bg">
+
+    <div id="app-transition"></div>
 <!-- 🔐 NAVBAR -->
 <nav class="navbar custom-navbar px-4">
 
@@ -49,7 +51,7 @@
 
                 <!-- IMAGE -->
                 <img 
-                th:src="${user != null && user.profileImagePath != null ? user.profileImagePath : '\images\default.jpg'}"
+                th:src="${user != null && user.profileImagePath != null ? user.profileImagePath : '/images/default.jpg'}"
                 class="rounded-circle border border-info mb-3 profile-img"
                 width="120" height="120"
                 />
@@ -94,12 +96,27 @@
             <div class="glass-card p-4 mb-4">
                 <h5 class="text-info">Security Posture</h5>
 
-                <p>Security Level: TEST</p>
+                <p>
+                    Security Level: 
+                    <span 
+                        th:text="${securityLevel}"
+                        th:classappend="${securityLevel == 'High'} ? 'text-success' :
+                                        (${securityLevel == 'Medium'} ? 'text-warning' : 'text-danger')">
+                    </span>
+                </p>
 
                 <div class="progress mb-3">
-                    <div class="progress-bar bg-info"
-                        th:style="'width:' + ${securityScore} + '%;'">
+                    <div class="progress-bar"
+                        th:style="'width:' + ${securityScore} + '%;'"
+                        th:classappend="
+                            ${securityScore > 70} ? 'bg-success' :
+                            (${securityScore > 40} ? 'bg-warning' : 'bg-danger')">
                     </div>
+                    <p class="mt-2 small text-light">
+                        Your account security is 
+                        <b th:text="${securityLevel}"></b>.
+                        Improve it by completing your profile and using strong credentials.
+                    </p>
                 </div>
 
                 <button class="btn neon-btn w-100">Manage Security</button>
@@ -127,13 +144,62 @@
 </div>
 
 <script>
+/* ===============================
+   🖼 IMAGE PREVIEW (SAFE)
+================================ */
 function previewImage(event) {
+    const file = event.target.files[0];
+
+    if (!file) return; // prevent crash
+
     const reader = new FileReader();
+
     reader.onload = function () {
-        document.getElementById("preview").src = reader.result;
+        const preview = document.getElementById("preview");
+        if (preview) {
+            preview.src = reader.result;
+        }
     };
-    reader.readAsDataURL(event.target.files[0]);
+
+    reader.readAsDataURL(file);
 }
+
+
+/* ===============================
+   🚀 PAGE TRANSITION (SAFE + CLEAN)
+================================ */
+document.addEventListener("DOMContentLoaded", () => {
+
+    const overlay = document.getElementById("app-transition");
+
+    document.querySelectorAll("a").forEach(link => {
+
+        link.addEventListener("click", function(e) {
+
+            const url = this.href;
+
+            // ignore invalid links
+            if (!url || url.includes("#") || this.target === "_blank") return;
+
+            e.preventDefault();
+
+            // if no overlay → fallback
+            if (!overlay) {
+                window.location.href = url;
+                return;
+            }
+
+            overlay.classList.add("active");
+
+            setTimeout(() => {
+                window.location.href = url;
+            }, 500);
+
+        });
+
+    });
+
+});
 </script>
 
 </body>
