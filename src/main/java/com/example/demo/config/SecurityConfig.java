@@ -33,11 +33,11 @@ public class SecurityConfig {
             .authenticationProvider(authProvider)
 
             .authorizeHttpRequests(auth -> auth
-<<<<<<< HEAD
+
             .requestMatchers("/", "/login", "/register", "/error", "/css/**", "/js/**", "/uploads/**").permitAll()
             .anyRequest().authenticated()
         )
-=======
+
                 .requestMatchers(
                     "/", 
                     "/login", 
@@ -54,7 +54,7 @@ public class SecurityConfig {
 
                 .anyRequest().authenticated()
             )
->>>>>>> fix-profile
+
 
         .formLogin(form -> form
             .loginPage("/login")
