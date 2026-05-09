@@ -53,6 +53,7 @@ jobs:
         with:
           target: 'http://localhost:8081'
           fail_action: false
+          cmd_options: '-a'
 
       - name: Shutdown Containers
         if: always()
