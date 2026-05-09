@@ -1,42 +1,100 @@
-HELP.md
+# ===============================
+# BUILD
+# ===============================
 target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+build/
+out/
 
-### STS ###
-.apt_generated
+# ===============================
+# MAVEN
+# ===============================
+.mvn/wrapper/maven-wrapper.jar
+
+# ===============================
+# IDE
+# ===============================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+.vscode/
+
 .classpath
-.factorypath
 .project
-.settings
+.settings/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+# ===============================
+# OS FILES
+# ===============================
+.DS_Store
+Thumbs.db
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
-
+# ===============================
+# LOGS
+# ===============================
 *.log
+logs/
+
+# ===============================
+# ENV / SECRETS
+# ===============================
 .env
+.env.*
+*.pem
+*.key
+
+# ===============================
+# NODE (if used)
+# ===============================
 node_modules/
 
+# ===============================
+# UPLOADS
+# ===============================
+uploads/
 
+# ===============================
+# DOCKER
+# ===============================
+docker-compose.override.yml
+*.tar
+
+# ===============================
+# SONARQUBE
+# ===============================
+.scannerwork/
+.sonar/
+
+# ===============================
+# OWASP ZAP
+# ===============================
 zap-report.html
+zap-report.json
 zap.yaml
 
+# ===============================
+# TEST OUTPUT
+# ===============================
+coverage/
+reports/
+test-output/
+
+# ===============================
+# TEMP FILES
+# ===============================
+tmp/
+temp/
+
+# ===============================
+# JAVA
+# ===============================
+*.class
+
+# ===============================
+# ALLOW SOURCE TARGETS
+# ===============================
+!**/src/main/**/target/
+!**/src/test/**/target/

@@ -9,21 +9,6 @@
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-
-<link rel="stylesheet" href="/style.css?v=2">
-</head>
-
-<body class="login-bg">
-
-<!-- 🔥 NAVBAR -->
-<nav class="navbar navbar-dark px-4">
-    <a class="navbar-brand fw-bold text-info" href="/">SecurLogin</a>
-
-    <div>
-        <a href="/" class="text-light me-3">Home</a>
-        <a href="/login" class="btn btn-outline-info">Login</a>
-    </div>
-
 <link rel="preload" href="/style.css" as="style">
 <link rel="stylesheet" th:href="@{/style.css}">
 </head>
@@ -47,17 +32,12 @@
         <a href="/register" class="btn neon-btn active-btn">Get Started</a>
     </div>
 
-
 </nav>
 
 <!-- 🔥 MAIN PANEL -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height:90vh;">
 
-
-    <div class="glass-card p-4 w-100">
-
     <div class="glass-card p-4">
-
 
         <h2 class="text-center text-info mb-4">Secure Your Digital Identity</h2>
 
@@ -136,11 +116,6 @@
 
 <!-- JS -->
 <script>
-
-function togglePassword(id, el) {
-    const input = document.getElementById(id);
-    const icon = el.querySelector("i");
-
 /* ===============================
    🔐 TOGGLE PASSWORD (SAFE)
 ================================ */
@@ -150,7 +125,6 @@ function togglePassword(id, el) {
 
     if (!input || !icon) return;
 
-
     if (input.type === "password") {
         input.type = "text";
         icon.classList.replace("bi-eye-slash", "bi-eye");
@@ -159,37 +133,6 @@ function togglePassword(id, el) {
         icon.classList.replace("bi-eye", "bi-eye-slash");
     }
 }
-
-
-// PASSWORD STRENGTH
-document.getElementById("password").addEventListener("input", function() {
-    const val = this.value;
-    const bar = document.getElementById("strengthBar");
-    const text = document.getElementById("strengthText");
-
-    let strength = 0;
-
-    if (val.length > 5) strength += 30;
-    if (val.match(/[A-Z]/)) strength += 20;
-    if (val.match(/[0-9]/)) strength += 20;
-    if (val.match(/[^A-Za-z0-9]/)) strength += 30;
-
-    bar.style.width = strength + "%";
-
-    if (strength < 40) text.innerText = "Weak";
-    else if (strength < 70) text.innerText = "Medium";
-    else text.innerText = "Strong";
-});
-
-// CONFIRM PASSWORD
-document.querySelector("form").addEventListener("submit", function(e) {
-    const p = document.getElementById("password").value;
-    const c = document.getElementById("confirmPassword").value;
-
-    if (p !== c) {
-        e.preventDefault();
-        alert("Passwords do not match!");
-    }
 
 
 /* ===============================
@@ -261,7 +204,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 500);
         });
     });
-
 
 });
 </script>

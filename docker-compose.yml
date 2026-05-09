@@ -1,25 +1,37 @@
-version: '3.8'
+
 
 services:
+
   mysql-db:
     image: mysql:8.0
+    container_name: mysql-db
+
+    restart: always
 
     environment:
       MYSQL_DATABASE: devsecops_app
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root123
+
     ports:
       - "3307:3306"
 
+    volumes:
+      - mysql_data:/var/lib/mysql   # ✅ persistence
 
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
+      
+    networks:
+        - devsecops-net
 
   spring-app:
     build: .
     container_name: spring-app
+
+    restart: always
 
     depends_on:
       mysql-db:
@@ -29,6 +41,23 @@ services:
       - "8081:8081"
 
     environment:
+      SERVER_PORT: 8081
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/devsecops_app
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_PASSWORD: root123
+
+    healthcheck:                      # ✅ IMPORTANT for CI/CD
+      test: ["CMD", "curl", "-f", "http://localhost:8081"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - devsecops-net
+
+
+volumes:
+  mysql_data:
+
+networks:
+  devsecops-net:

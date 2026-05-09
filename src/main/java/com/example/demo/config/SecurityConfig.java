@@ -33,44 +33,37 @@ public class SecurityConfig {
             .authenticationProvider(authProvider)
 
             .authorizeHttpRequests(auth -> auth
-
-            .requestMatchers("/", "/login", "/register", "/error", "/css/**", "/js/**", "/uploads/**").permitAll()
-            .anyRequest().authenticated()
-        )
-
                 .requestMatchers(
                     "/", 
                     "/login", 
                     "/register", 
                     "/error",
 
-                    "/style.css",        // ✅ IMPORTANT
-                    "/images/**",
-                    "/uploads/**",
-
+                    "/style.css",      // ✅ IMPORTANT FIX
                     "/css/**",
-                    "/js/**"
+                    "/js/**",
+                    "/images/**",
+                    "/uploads/**"
                 ).permitAll()
 
                 .anyRequest().authenticated()
             )
 
+            .formLogin(form -> form
+                .loginPage("/login")
+                .defaultSuccessUrl("/profile", true)
+                .permitAll()
+            )
 
-        .formLogin(form -> form
-            .loginPage("/login")
-            .defaultSuccessUrl("/profile", true)
-            .permitAll()
-        )
+            .rememberMe(remember -> remember
+                .key("secretKey")
+                .tokenValiditySeconds(86400)
+            )
 
-        .rememberMe(remember -> remember
-            .key("secretKey")
-            .tokenValiditySeconds(86400)
-        )
-
-        .logout(logout -> logout
-            .logoutSuccessUrl("/login?logout")
-            .permitAll()
-        );
+            .logout(logout -> logout
+                .logoutSuccessUrl("/login?logout")
+                .permitAll()
+            );
 
         return http.build();
     }
