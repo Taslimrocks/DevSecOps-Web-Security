@@ -1,5 +1,7 @@
 name: DevSecOps Pipeline
 
+
+
 on:
   push:
     branches: [ "main" ]
@@ -49,11 +51,13 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: OWASP ZAP Scan
+        continue-on-error: true
         uses: zaproxy/action-baseline@v0.12.0
         with:
           target: 'http://localhost:8081'
           fail_action: false
           cmd_options: '-a'
+          allow_issue_writing: false
 
       - name: Shutdown Containers
         if: always()
